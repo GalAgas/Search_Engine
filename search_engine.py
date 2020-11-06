@@ -18,7 +18,7 @@ def run_engine():
     p = Parse()
     indexer = Indexer(config)
 
-    documents_list = r.read_file(file_name='sample3.parquet')
+    documents_list = r.read_file(file_name='C:\\Gal\\University\\Third_year\\semA\\IR\\Data\\Data\\date=07-09-2020\\covid19_07-09.snappy.parquet')
     # Iterate over every document in the file
     for idx, document in enumerate(documents_list):
         # parse the document

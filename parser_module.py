@@ -1,3 +1,5 @@
+import re
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from document import Document
@@ -8,15 +10,37 @@ class Parse:
     def __init__(self):
         self.stop_words = stopwords.words('english')
 
+    def parse_hashtag(self, all_tokens_list , token):
+        all_tokens_list.append(token.split('_'))
+        all_tokens_list.append(re.split('(?=[A-Z])', token))
+
+
+    def parse_tag(self, all_tokens_list, token):
+        pass
+
     def parse_sentence(self, text):
         """
         This function tokenize, remove stop words and apply lower case for every word within the text
         :param text:
         :return:
         """
-        text_tokens = word_tokenize(text)
-        text_tokens_without_stopwords = [w.lower() for w in text_tokens if w not in self.stop_words]
-        return text_tokens_without_stopwords
+        #text_tokens = word_tokenize(text)
+        #text_tokens_without_stopwords = [w.lower() for w in text_tokens if w not in self.stop_words]
+
+        tokenized_text = [];
+
+        text_tokens = text.split(" ");
+        for token in text_tokens:
+            if token.startswith('#'):
+                self.parse_hashtag(tokenized_text, token)
+            elif token.startswith('@'):
+                self.parse_tag(tokenized_text, token)
+
+
+
+        return tokenized_text
+
+        #return text_tokens_without_stopwords
 
     def parse_doc(self, doc_as_list):
         """
@@ -46,3 +70,5 @@ class Parse:
         document = Document(tweet_id, tweet_date, full_text, url, retweet_text, retweet_url, quote_text,
                             quote_url, term_dict, doc_length)
         return document
+
+
