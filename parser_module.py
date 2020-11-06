@@ -1,4 +1,5 @@
 import re
+from urllib.parse import urlparse
 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -15,16 +16,24 @@ class Parse:
         final = []
         final.append(token)
         tok = token[1:]
+
         if '_' in token:
-            final.append(tok.split('_'))
+            final += tok.split('_')
+
         else:
-            final += re.findall('[A-Z][^A-Z]*', tok)
-        final = map(lambda x: x.lower(), final)
+            #final += re.findall('[A-Z][^A-Z]*', tok)
+            final += re.findall(r'[a-zA-Z0-9](?:[a-z0-9]+|[A-Z0-9]*(?=[A-Z]|$))', tok)
+
+        #final = map(lambda x: x.lower(), final)
+        final = [x.lower() for x in final]
         all_tokens_list += final
 
 
+
     def parse_url(self, all_tokens_list, token):
-        pass
+        #all_tokens_list += re.split('://, /, /?, =', token)
+        #all_tokens_list += token.split(['://', '/', '/?', '='])
+        all_tokens_list += re.split('[/://?=]', token)
 
 
 
@@ -38,15 +47,28 @@ class Parse:
         #text_tokens = word_tokenize(text)
         #text_tokens_without_stopwords = [w.lower() for w in text_tokens if w not in self.stop_words]
 
+
         tokenized_text = [];
 
-        text_tokens = text.split(" ");
+        #text_tokens = text.split(' ');
+        text_tokens = re.split(' |\n\n|\n', text)
+        #need to remove whitespace
+        #text_tokens = re.split('[' '][\n\nn]', text)
+
+
+        # #example
+        # test = 'https://www.instagram.com/p/CD7fAPWs3WM/?igshid=o9kf0ugp1l8x'
+        # print(re.split('[/://?=]', test))
+
+
         for token in text_tokens:
             if token.startswith('#'):
                 self.parse_hashtag(tokenized_text, token)
-            #elif token.startswith(''):
-             #   self.parse_tag(tokenized_text, token)
-
+            elif token.startswith('@'):
+                tokenized_text.append(token)
+            #starts with http & https
+            elif token.startswith('http'):
+                self.parse_url(tokenized_text, token)
 
 
 
