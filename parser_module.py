@@ -26,6 +26,9 @@ class Parse:
     def parse_url(self, all_tokens_list, token):
         pass
 
+
+
+
     def parse_sentence(self, text):
         """
         This function tokenize, remove stop words and apply lower case for every word within the text
@@ -43,6 +46,7 @@ class Parse:
                 self.parse_hashtag(tokenized_text, token)
             #elif token.startswith(''):
              #   self.parse_tag(tokenized_text, token)
+
 
 
 
