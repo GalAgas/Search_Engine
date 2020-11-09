@@ -1,3 +1,5 @@
+import re
+
 from reader import ReadFile
 from configuration import ConfigClass
 from parser_module import Parse
@@ -49,6 +51,20 @@ def search_and_rank_query(query, inverted_index, k):
 
 def main():
     run_engine()
+
+    # example url
+    test = 'https://www.instagram.com/p/CD7fAPWs3WM/?igshid=o9kf0ugp1l8x'
+    all_tokens_list = ["drrrf", "wrwr"]
+    url = re.split('[/://?=]', test)
+    if ('www' in url[3]):
+        split_address = url[3].split('.', 1)
+        url[3] = split_address[1]
+        url.insert(3, split_address[0])
+    print(url)
+    all_tokens_list += url
+    print(all_tokens_list)
+
+
     query = input("Please enter a query: ")
     k = int(input("Please enter number of docs to retrieve: "))
     inverted_index = load_index()

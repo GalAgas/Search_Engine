@@ -33,9 +33,14 @@ class Parse:
     def parse_url(self, all_tokens_list, token):
         #all_tokens_list += re.split('://, /, /?, =', token)
         #all_tokens_list += token.split(['://', '/', '/?', '='])
-        all_tokens_list += re.split('[/://?=]', token)
 
-
+        # url = re.split('[/://?=]', token)
+        # if ('www' in url[3]):
+        #     split_address = url[3].split('.', 1)
+        #     url[3] = split_address[1]
+        #     url.insert(3, split_address[0])
+        # all_tokens_list += url
+        pass
 
 
     def parse_sentence(self, text):
@@ -54,11 +59,6 @@ class Parse:
         text_tokens = re.split(' |\n\n|\n', text)
         #need to remove whitespace
         #text_tokens = re.split('[' '][\n\nn]', text)
-
-
-        # #example
-        # test = 'https://www.instagram.com/p/CD7fAPWs3WM/?igshid=o9kf0ugp1l8x'
-        # print(re.split('[/://?=]', test))
 
 
         for token in text_tokens:
